@@ -1,41 +1,86 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="manifest" href="manifest.json"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Счётчик сигарет</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #counter {
+      font-size: 72px;
+      margin: 30px 0;
+      color: #444;
+    }
+
+    #addBtn {
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    #addBtn:active {
+      transform: scale(0.92);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
+    }
+
+    #resetBtn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff5555;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #resetBtn:hover {
+      background-color: #e04444;
+    }
+  </style>
 </head>
 <body>
-  <h1>Сигаерт на сегодня:</h1>
-  <div id="count">0</div>
-  <img src="my-button.png" id="addBtn" alt="Кнопка" style="cursor:pointer; width:100px;">
-  <button id="reset">Сбросить</button>
-  <div class="date" id="date"></div>
+  <h1>Сигареты сегодня</h1>
+  <div id="counter">0</div>
 
-  <script src="app.js"></script>
+  <!-- Картинка кнопки -->
+  <img src="my-button.png" id="addBtn" alt="Добавить сигарету" />
+
+  <br />
+  <button id="resetBtn">Сбросить</button>
+
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
-  <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      reg.onupdatefound = () => {
-        const newWorker = reg.installing;
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            alert('Доступно обновление приложения! Пожалуйста, перезагрузите страницу.');
-          }
-        };
-      };
-    }).catch(err => {
-      console.error('Service Worker registration failed:', err);
+    document.addEventListener("DOMContentLoaded", function () {
+      const counterDisplay = document.getElementById("counter");
+      const addBtn = document.getElementById("addBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let count = parseInt(localStorage.getItem("cigarettes")) || 0;
+      counterDisplay.textContent = count;
+
+      addBtn.addEventListener("click", function () {
+        count++;
+        localStorage.setItem("cigarettes", count);
+        counterDisplay.textContent = count;
+      });
+
+      resetBtn.addEventListener("click", function () {
+        count = 0;
+        localStorage.setItem("cigarettes", count);
+        counterDisplay.textContent = count;
+      });
     });
-  }
-</script>
-
+  </script>
 </body>
 </html>
