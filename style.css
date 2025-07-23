@@ -12,12 +12,24 @@ h1 { color: #333; }
 button {
   font-size: 20px;
   padding: 14px 28px;
-  background: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
 }
-button:active { background: #0056b3; }
+#btn {
+  background-color: #007bff;
+}
+#btn:active, #btn:hover {
+  background-color: #0056b3;
+}
+#reset {
+  margin-top: 10px;
+  background-color: #dc3545;
+}
+#reset:hover {
+  background-color: #a71d2a;
+}
 .date {
   margin-top: 20px;
   font-size: 14px;
