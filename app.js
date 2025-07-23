@@ -1,5 +1,6 @@
 const countEl = document.getElementById('count');
 const btn = document.getElementById('btn');
+const resetBtn = document.getElementById('reset');
 const dateEl = document.getElementById('date');
 
 function todayKey() {
@@ -8,7 +9,7 @@ function todayKey() {
 
 function load() {
   const key = todayKey();
-  countEl.textContent = localStorage.getItem(key) || 0;
+  countEl.textContent = localStorage.getItem(key) || '0';
   dateEl.textContent = 'Дата: ' + key.split('_')[1];
 }
 
@@ -17,6 +18,14 @@ btn.addEventListener('click', () => {
   let c = parseInt(localStorage.getItem(key)) || 0;
   localStorage.setItem(key, ++c);
   countEl.textContent = c;
+});
+
+resetBtn.addEventListener('click', () => {
+  if (confirm('Сбросить счётчик за сегодня?')) {
+    const key = todayKey();
+    localStorage.setItem(key, 0);
+    countEl.textContent = '0';
+  }
 });
 
 load();
